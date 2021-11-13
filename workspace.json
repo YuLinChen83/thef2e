@@ -1,6 +1,10 @@
 {
   "version": 2,
   "projects": {
+    "bike": "apps/bike",
+    "bike-e2e": "apps/bike-e2e",
+    "bus": "apps/bus",
+    "bus-e2e": "apps/bus-e2e",
     "travel": "apps/travel",
     "travel-e2e": "apps/travel-e2e"
   }

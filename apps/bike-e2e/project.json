@@ -1,0 +1,28 @@
+{
+  "root": "apps/bike-e2e",
+  "sourceRoot": "apps/bike-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/bike-e2e/cypress.json",
+        "devServerTarget": "bike:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "bike:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/bike-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["bike"]
+}
