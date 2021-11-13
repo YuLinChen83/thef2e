@@ -1,0 +1,28 @@
+{
+  "root": "apps/travel-e2e",
+  "sourceRoot": "apps/travel-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/travel-e2e/cypress.json",
+        "devServerTarget": "travel:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "travel:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/travel-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["travel"]
+}
