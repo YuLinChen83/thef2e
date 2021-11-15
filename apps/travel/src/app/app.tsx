@@ -133,7 +133,11 @@ const StyledApp = styled.div`
 `;
 
 export function App() {
-  return <StyledApp>Travel</StyledApp>;
+  return (
+    <StyledApp>
+      Travel<h2 className="text-red-500">Travel</h2>
+    </StyledApp>
+  );
 }
 
 export default App;
