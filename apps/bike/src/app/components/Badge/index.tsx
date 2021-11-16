@@ -1,6 +1,4 @@
-import React from 'react';
-
-export type Prop = {
+export type Props = {
   type: 'normal' | 'success' | 'danger' | 'warning';
   children: string;
 };
@@ -12,7 +10,7 @@ const specialColorMap = {
   warning: ['warning-light', 'warning']
 };
 
-const Badge = ({ type = 'normal', children }: Prop) => (
+const Badge = ({ type = 'normal', children }: Props) => (
   <div
     className={`inline-flex items-center justify-center py-1 px-2 rounded-full text-xs bg-${specialColorMap[type][0]}`}
   >

@@ -1,7 +1,7 @@
-describe('bike: Badge component', () => {
-  beforeEach(() => cy.visit('/iframe.html?id=badge--primary'));
+describe('bike: Card component', () => {
+  beforeEach(() => cy.visit('/iframe.html?id=card--primary'));
     
     it('should render the component', () => {
-      cy.get('h1').should('contain', 'Welcome to Badge!');
+      cy.get('h1').should('contain', 'Welcome to Card!');
     });
 });
