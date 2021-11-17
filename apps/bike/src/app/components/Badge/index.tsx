@@ -1,5 +1,5 @@
 export type Props = {
-  type: 'normal' | 'success' | 'danger' | 'warning';
+  type?: 'normal' | 'success' | 'danger' | 'warning';
   children: string;
 };
 
