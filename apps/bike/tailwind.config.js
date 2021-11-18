@@ -11,7 +11,7 @@ module.exports = {
         danger: { light: "#FEE8E8", DEFAULT: "#D12419" },
         warning: { light: "#F6ECD2", DEFAULT: "#E2A70D" },
         border: "#949494",
-        auxiliary: { light: "#F5F7F9" }
+        auxiliary: { light: "#F5F7F9" },
       },
       boxShadow: {
         card: '0px 2px 8px rgba(0, 0, 0, 0.1)',

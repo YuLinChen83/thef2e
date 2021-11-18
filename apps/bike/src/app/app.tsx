@@ -13,14 +13,16 @@ const StyledApp = styled.div`
 
 export function App() {
   return (
-    <StyledApp className="text-black text-xl">
+    <StyledApp className="text-black text-xl bg-auxiliary-light h-screen overflow-hidden">
       <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path="/news" element={<News />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/" element={<Homepage />} />
-        </Routes>
+        <div className="h-full w-full max-w-7xl flex m-auto pt-5">
+          <Routes>
+            <Route path="/news" element={<News />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/" element={<Homepage />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </StyledApp>
   );

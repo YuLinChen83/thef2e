@@ -1,21 +1,27 @@
 import clsx from 'clsx';
 import { ReactComponent as DownIcon } from '../../../assets/icons/down.svg';
 
-export type Option = {
+export type Option<T> = {
   text: string;
-  value: string | number;
+  value: T;
 };
 
-export type Props = {
-  options: Option[];
+export type Props<T> = {
+  className?: string;
+  value: T;
+  options: Option<T>[];
+  onChange: (value: any) => void;
 };
 
-const Select = ({ options }: Props) => (
+const Select = ({ value, options, className, onChange }: Props<any>) => (
   <div className="relative inline-flex">
     <select
       className={clsx(
-        'border border-primary focus:border-primary-light rounded-md h-9 leading-relaxed px-3 pr-8 appearance-none outline-none'
+        'border border-primary focus:border-primary-light rounded-md h-9 leading-relaxed px-3 pr-8 appearance-none outline-none',
+        className
       )}
+      value={value}
+      onChange={onChange}
     >
       {options.map(({ text, value }) => (
         <option key={value} value={value}>

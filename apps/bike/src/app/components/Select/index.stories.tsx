@@ -6,7 +6,7 @@ export default {
   title: 'Select'
 } as Meta;
 
-const Template: Story<Props> = (args) => <Select {...args} />;
+const Template: Story<Props<number>> = (args) => <Select {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
