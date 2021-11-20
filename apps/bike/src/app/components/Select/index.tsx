@@ -7,22 +7,33 @@ export type Option<T> = {
 };
 
 export type Props<T> = {
+  placeholder: string;
   className?: string;
   value: T;
   options: Option<T>[];
   onChange: (value: any) => void;
 };
 
-const Select = ({ value, options, className, onChange }: Props<any>) => (
+const Select = ({
+  placeholder,
+  value,
+  options,
+  className,
+  onChange
+}: Props<any>) => (
   <div className="relative inline-flex">
     <select
       className={clsx(
         'border border-primary focus:border-primary-light rounded-md h-9 leading-relaxed px-3 pr-8 appearance-none outline-none',
         className
       )}
+      placeholder={placeholder}
       value={value}
       onChange={onChange}
     >
+      <option value="" disabled>
+        {placeholder}
+      </option>
       {options.map(({ text, value }) => (
         <option key={value} value={value}>
           {text}
