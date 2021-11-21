@@ -3,64 +3,71 @@ import { useState, useEffect, memo, SetStateAction, Dispatch } from 'react';
 import { useParams } from 'react-router-dom';
 import { GeolocatedProps, geolocated } from 'react-geolocated';
 import useStore from '../../store';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Tooltip,
+  useMapEvents
+} from 'react-leaflet';
+import { LatLngTuple, Icon, Point, IconOptions, DivIcon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import Select from '../../components/Select';
-import { LatLngTuple } from 'leaflet';
+import CardInfo from '../../components/CardInfo';
+import BicycleDefaultIcon from '../../../assets/icons/bicycle-default.svg';
+import BicycleSelectedIcon from '../../../assets/icons/bicycle-selected.svg';
+import BicycleOffServiceIcon from '../../../assets/icons/bicycle-offService.svg';
 
-// const position = [51.505, -0.09];
+const BICYCLE_SVG = (icon: string) =>
+  new Icon({
+    iconUrl: icon,
+    iconRetinaUrl: icon,
+    popupAnchor: [0, 0],
+    iconSize: new Point(44, 44)
+  });
 
-// const StationMarker = ({ nearby, type, searchParam }) => {
-//   const { data, loading } = useHttp('', 'bike', nearby);
-//   const bike_data = data.filter((station) => station.ServiceType === type);
+const StationMarker = ({ stations }: { stations: any[] }) => {
+  const {
+    currentSelectedStation = { stationUID: '' },
+    setCurrentSelectedStation
+  } = useStore();
 
-//   return (
-//     <>
-//       {bike_data.map((item) => (
-//         <Marker
-//           key={item.StationUID}
-//           position={[
-//             item.StationPosition.PositionLat,
-//             item.StationPosition.PositionLon
-//           ]}
-//           icon={
-//             item.AvailableRentBikes === 0 && searchParam === 'rent'
-//               ? emptyStationSVG
-//               : item.AvailableReturnBikes === 0 && searchParam === 'return'
-//               ? emptyStationSVG
-//               : searchParam === 'rent'
-//               ? rentStationSVG
-//               : returnStationSVG
-//           }
-//           title={item.StationName.Zh_tw}
-//           alt={item.StationName.Zh_tw}
-//         >
-//           <Tooltip
-//             offset={[-1, -8]}
-//             direction="center"
-//             opacity={1}
-//             permanent
-//             className={item.AvailableReturnBikes === 0 ? 'text-dark' : null}
-//           >
-//             {searchParam === 'rent'
-//               ? item.AvailableRentBikes.toString()
-//               : item.AvailableReturnBikes.toString()}
-//           </Tooltip>
-//         </Marker>
-//       ))}
-//     </>
-//   );
-// };
+  const icon = (stationUID: string): Icon<IconOptions> | DivIcon | undefined =>
+    BICYCLE_SVG(
+      currentSelectedStation?.stationUID === stationUID
+        ? BicycleSelectedIcon
+        : BicycleDefaultIcon
+    );
+
+  console.log('stations: ', stations);
+  return (
+    <>
+      {stations.map((item) => (
+        <Marker
+          key={item.stationUID}
+          position={[item.positionLat, item.positionLon]}
+          icon={icon(item.stationUID)}
+          title={item.stationName}
+          alt={item.stationName}
+          eventHandlers={{
+            click: () => setCurrentSelectedStation(item)
+          }}
+        ></Marker>
+      ))}
+    </>
+  );
+};
 
 type MainMapType = {
   position: any;
-  zoom: number;
+  stations: any[];
 };
 
 // { latitude, longitude }
 const MainMap = ({
   position: [latitude, longitude] = [],
-  zoom
+  stations
 }: MainMapType) => {
   const [position, setPosition] = useState<LatLngTuple>([latitude, longitude]);
 
@@ -72,7 +79,7 @@ const MainMap = ({
     <MapContainer
       style={{ width: '100%', height: '100%' }}
       center={position}
-      zoom={zoom}
+      zoom={16}
       // whenCreated={setMap}
       className="map-container"
     >
@@ -81,7 +88,7 @@ const MainMap = ({
         url={`https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?access_token=${process.env.NX_MAP_TOKEN}`}
       />
       <Marker position={position} title="目前的位置" alt="目前的位置"></Marker>
-      {/* <StationMarker nearby={nearby} type={type} searchParam={searchParam} /> */}
+      <StationMarker stations={stations} />
     </MapContainer>
   );
 };
@@ -89,15 +96,26 @@ const MainMap = ({
 const Homepage = ({ coords }: { coords?: any }) => {
   // const { city, town } = useParams();
   const [filter, setFilter] = useState({ city: '', town: '' });
-  const getCities = useStore((state) => state.getCities);
-  const cities = useStore((state) => state.cities);
+  const {
+    currentPosition,
+    setCurrentPosition,
+    cities,
+    getCities,
+    stations,
+    getStations
+  } = useStore();
 
   useEffect(() => {
     getCities();
   }, []);
+
   useEffect(() => {
-    console.log('cities: ', cities);
-  }, [cities]);
+    if (coords) setCurrentPosition([coords.latitude, coords.longitude]);
+  }, [coords]);
+
+  useEffect(() => {
+    if (currentPosition) getStations();
+  }, [currentPosition]);
 
   return (
     <div className="w-full h-full">
@@ -124,12 +142,16 @@ const Homepage = ({ coords }: { coords?: any }) => {
         />
       </div>
       <div className="w-full h-full inline-flex gap-5">
-        <div className="w-1/3">Card list</div>
+        <div className="w-1/3 flex flex-col gap-4">
+          {stations.map((item: any) => (
+            <CardInfo key={item.stationUID} type="path" {...item} />
+          ))}
+        </div>
         <div className="w-2/3 h-5/6">
-          {coords === null ? (
+          {currentPosition === null ? (
             'Loading'
           ) : (
-            <MainMap position={[coords.latitude, coords.longitude]} zoom={16} />
+            <MainMap position={currentPosition} stations={stations} />
           )}
         </div>
       </div>

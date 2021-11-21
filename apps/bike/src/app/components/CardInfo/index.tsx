@@ -4,24 +4,36 @@ import Badge from '../Badge';
 import { ReactComponent as ForkKnifeIcon } from '../../../assets/icons/fork-knife.svg';
 import { ReactComponent as CameraIcon } from '../../../assets/icons/camera.svg';
 import { ReactComponent as MapIcon } from '../../../assets/icons/map.svg';
+import dateFormat from 'dateformat';
 
 export type Prop = {
   type: 'path' | 'station';
-  data: any;
+  stationName: string;
+  stationAddr: string;
+  availableRentBikes: number;
+  availableReturnBikes: number;
+  updateTime: 'string';
 };
 
-const CardInfo = ({ type, data = { title: '中正路（北側）' } }: Prop) => (
+const CardInfo = ({
+  type,
+  stationName,
+  stationAddr,
+  availableRentBikes,
+  availableReturnBikes,
+  updateTime
+}: Prop) => (
   <Card>
     <div className="inline-flex justify-between border-b border-black-100 mb-3 pb-3">
       <div className="flex flex-col justify-center w-full overflow-hidden">
         <h3 className="text-base font-bold flex items-center justify-between pb-1">
-          {data.title}
+          {stationName}
         </h3>
         {type === 'station' && (
           <div className="inline-flex items-center py-2">
             <MapIcon className="text-primary w-5 h-5 mr-1 flex-none" />
             <span className="text-xs overflow-ellipsis overflow-hidden">
-              中正路261號(旁)(鄰近淡水紅毛城/淡水英國領事館/淡中正路261號(旁)(鄰近淡水紅毛城/淡水英國領事館/淡中正路261號(旁)(鄰近淡水紅毛城/淡水英國領事館/淡中正路261號(旁)(鄰近淡水紅毛城/淡水英國領
+              {stationAddr}
             </span>
           </div>
         )}
@@ -75,16 +87,20 @@ const CardInfo = ({ type, data = { title: '中正路（北側）' } }: Prop) => 
         <div className="bg-primary-10 my-3 rounded-md h-16 text-base flex items-center justify-between">
           <div className="text-black-400 inline-flex justify-center w-1/2">
             可租
-            <div className="w-7 text-center font-semibold text-black">5</div>
+            <div className="w-7 text-center font-semibold text-black">
+              {availableRentBikes}
+            </div>
           </div>
           <div className="border-r border-black-200 h-10" />
           <div className="text-black-400 inline-flex justify-center w-1/2">
             可還
-            <div className="w-7 text-center font-semibold text-black">15</div>
+            <div className="w-7 text-center font-semibold text-black">
+              {availableReturnBikes}
+            </div>
           </div>
         </div>
         <p className="text-black-300 text-xs">
-          Last update: 2021-11-11 22:00:00
+          Last update: {dateFormat(new Date(updateTime), 'yyyy-mm-dd HH:MM:ss')}
         </p>
       </div>
     )}
