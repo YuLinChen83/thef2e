@@ -102,7 +102,8 @@ const Homepage = ({ coords }: { coords?: any }) => {
     cities,
     getCities,
     stations,
-    getStations
+    getStations,
+    currentSelectedStation
   } = useStore();
 
   useEffect(() => {
@@ -147,11 +148,16 @@ const Homepage = ({ coords }: { coords?: any }) => {
             <CardInfo key={item.stationUID} type="path" {...item} />
           ))}
         </div>
-        <div className="w-2/3 h-5/6">
+        <div className="w-2/3 h-5/6 relative">
           {currentPosition === null ? (
             'Loading'
           ) : (
             <MainMap position={currentPosition} stations={stations} />
+          )}
+          {currentSelectedStation && (
+            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-full max-w-lg z-999">
+              <CardInfo type="station" {...currentSelectedStation} />
+            </div>
           )}
         </div>
       </div>

@@ -12,7 +12,8 @@ export type Prop = {
   stationAddr: string;
   availableRentBikes: number;
   availableReturnBikes: number;
-  updateTime: 'string';
+  bikeVersion: string;
+  updateTime: string;
 };
 
 const CardInfo = ({
@@ -21,6 +22,7 @@ const CardInfo = ({
   stationAddr,
   availableRentBikes,
   availableReturnBikes,
+  bikeVersion,
   updateTime
 }: Prop) => (
   <Card>
@@ -82,7 +84,7 @@ const CardInfo = ({
       <div className="flex flex-col">
         <div className="flex gap-2">
           <Badge type="success">正常營運</Badge>
-          <Badge>YouBike 1.0</Badge>
+          <Badge>{bikeVersion}</Badge>
         </div>
         <div className="bg-primary-10 my-3 rounded-md h-16 text-base flex items-center justify-between">
           <div className="text-black-400 inline-flex justify-center w-1/2">

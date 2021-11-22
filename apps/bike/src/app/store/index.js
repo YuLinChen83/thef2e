@@ -49,7 +49,7 @@ const useStore = create((set, get) => ({
       });
 
       const result = stationData.map((stationItem) => {
-        const { AvailableRentBikes, AvailableReturnBikes, UpdateTime: updateTime } = availabilityData.find(availableItem => availableItem.stationUID === stationItem.stationUID);
+        const { AvailableRentBikes, AvailableReturnBikes, UpdateTime: updateTime } = availabilityData.find(availableItem => availableItem.StationUID === stationItem.StationUID);
         const [bikeVersion, stationName] = stationItem.StationName.Zh_tw.split('_');
         return {
           stationUID: stationItem.StationUID,
