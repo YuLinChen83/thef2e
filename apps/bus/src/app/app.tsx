@@ -1,139 +1,63 @@
 import styled from 'styled-components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import RealtimeBus from './pages/RealtimeBus';
+import BusSchedule from './pages/BusSchedule';
+import MyFavorite from './pages/MyFavorite';
+import NearbyBusStop from './pages/NearbyBusStop';
+import Homepage from './pages/Homepage';
+import Bg from '../assets/images/bg-pc.jpg';
+import './index.css';
 
-import { ReactComponent as Logo } from './logo.svg';
-import star from './star.svg';
+const queryClient = new QueryClient();
 
 const StyledApp = styled.div`
-  font-family: sans-serif;
-  min-width: 300px;
-  max-width: 600px;
-  margin: 50px auto;
-
-  .gutter-left {
-    margin-left: 9px;
+  @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@200;300;400;500;600;700;800;900&family=Noto+Sans+TC:wght@100;300;400;500;700;900&family=Nunito+Sans:wght@200;300;400;600;700;800;900&family=Pacifico&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+  font-family: 'Noto Sans TC', sans-serif;
+  .crimson {
+    font-family: 'Crimson Pro', serif;
   }
-
-  .col-span-2 {
-    grid-column: span 2;
+  .nunito {
+    font-family: 'Nunito Sans', sans-serif;
   }
-
-  .flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .pacifico {
+    font-family: 'Pacifico', cursive;
   }
-
-  header {
-    background-color: #143055;
-    color: white;
-    padding: 5px;
-    border-radius: 3px;
-  }
-
-  main {
-    padding: 0 36px;
-  }
-
-  p {
-    text-align: center;
-  }
-
-  h1 {
-    text-align: center;
-    margin-left: 18px;
-    font-size: 24px;
-  }
-
-  h2 {
-    text-align: center;
-    font-size: 20px;
-    margin: 40px 0 10px 0;
-  }
-
-  .resources {
-    text-align: center;
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-gap: 9px;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .resource {
-    color: #0094ba;
-    height: 36px;
-    background-color: rgba(0, 0, 0, 0);
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 4px;
-    padding: 3px 9px;
-    text-decoration: none;
-  }
-
-  .resource:hover {
-    background-color: rgba(68, 138, 255, 0.04);
-  }
-
-  pre {
-    padding: 9px;
-    border-radius: 4px;
-    background-color: black;
-    color: #eee;
-  }
-
-  details {
-    border-radius: 4px;
-    color: #333;
-    background-color: rgba(0, 0, 0, 0);
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    padding: 3px 9px;
-    margin-bottom: 9px;
-  }
-
-  summary {
-    outline: none;
-    height: 36px;
-    line-height: 36px;
-  }
-
-  .github-star-container {
-    margin-top: 12px;
-    line-height: 20px;
-  }
-
-  .github-star-container a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #333;
-  }
-
-  .github-star-badge {
-    color: #24292e;
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    padding: 3px 10px;
-    border: 1px solid rgba(27, 31, 35, 0.2);
-    border-radius: 3px;
-    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
-    margin-left: 4px;
-    font-weight: 600;
-  }
-
-  .github-star-badge:hover {
-    background-image: linear-gradient(-180deg, #f0f3f6, #e6ebf1 90%);
-    border-color: rgba(27, 31, 35, 0.35);
-    background-position: -0.5em;
-  }
-  .github-star-badge .material-icons {
-    height: 16px;
-    width: 16px;
-    margin-right: 4px;
+  .roboto {
+    font-family: 'Roboto', sans-serif;
   }
 `;
 
 export function App() {
-  return <StyledApp>Bus</StyledApp>;
+  return (
+    <StyledApp className="h-full w-full flex flex-col">
+      <div
+        className="absolute h-full w-full bg-cover bg-top bg-no-repeat"
+        style={{
+          backgroundImage: `url('${Bg}')`,
+          zIndex: -1,
+          clipPath: 'ellipse(70vw 70vw at 50% -26vw)'
+        }}
+      />
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Header />
+          <div className="flex-grow">
+            <Routes>
+              <Route path="/realtime" element={<RealtimeBus />} />
+              <Route path="/nearby" element={<NearbyBusStop />} />
+              <Route path="/schedule" element={<BusSchedule />} />
+              <Route path="/favorite" element={<MyFavorite />} />
+              <Route path="/" element={<Homepage />} />
+            </Routes>
+          </div>
+          <Footer />
+        </BrowserRouter>
+      </QueryClientProvider>
+    </StyledApp>
+  );
 }
 
 export default App;
