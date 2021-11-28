@@ -8,7 +8,6 @@ import BusSchedule from './pages/BusSchedule';
 import MyFavorite from './pages/MyFavorite';
 import NearbyBusStop from './pages/NearbyBusStop';
 import Homepage from './pages/Homepage';
-import Bg from '../assets/images/bg-pc.jpg';
 import './index.css';
 
 const queryClient = new QueryClient();
@@ -32,15 +31,7 @@ const StyledApp = styled.div`
 
 export function App() {
   return (
-    <StyledApp className="h-full w-full flex flex-col">
-      <div
-        className="absolute h-full w-full bg-cover bg-top bg-no-repeat"
-        style={{
-          backgroundImage: `url('${Bg}')`,
-          zIndex: -1,
-          clipPath: 'ellipse(70vw 70vw at 50% -26vw)'
-        }}
-      />
+    <StyledApp className="h-full w-full flex flex-col relative">
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Header />

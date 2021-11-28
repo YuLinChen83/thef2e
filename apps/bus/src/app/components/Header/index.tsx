@@ -8,7 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-20 px-12 flex justify-between items-center text-xl text-white">
+    <div className="w-full h-20 px-12 flex justify-between items-center text-xl text-white z-10">
       <img
         src={Logo}
         alt="logo"
