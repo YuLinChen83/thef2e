@@ -16,3 +16,7 @@ body,
 .btns button:hover {
   @apply bg-opacity-80 transition-all;
 }
+
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+}

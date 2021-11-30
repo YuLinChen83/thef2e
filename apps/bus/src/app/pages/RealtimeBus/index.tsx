@@ -1,12 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../../store';
+import { cities } from '../../constants';
 import { ReactComponent as RightArrowIcon } from '../../../assets/icons/right-arrow.svg';
+import { ReactComponent as DownIcon } from '../../../assets/icons/down.svg';
+import { ReactComponent as SearchIcon } from '../../../assets/icons/search.svg';
+import { ReactComponent as CrossIcon } from '../../../assets/icons/cross.svg';
 import DefaultImage from '../../../assets/images/default.png';
 
 const RealtimeBus = () => {
   const navigate = useNavigate();
   const { getBusRoutes } = useStore();
+  const [cityKey, setCityKey] = useState('');
+  const [routeKey, setRouteKey] = useState('');
 
   useEffect(() => {
     getBusRoutes();
@@ -44,20 +50,37 @@ const RealtimeBus = () => {
         {/* <div className="flex flex-col justify-center"> */}
         <p className="text-main-blue mb-3">*選擇縣市有助於您更快找到路線</p>
         <div className="inline-flex gap-5">
-          <label htmlFor="city" className="flex-1">
+          <label htmlFor="city" className="flex-1 relative">
             <input
-              type="text"
+              list="cities"
               placeholder="請選擇縣市或手動輸入關鍵字"
               className="w-full bg-gray-light py-3 px-4 placeholder-gray rounded-xl"
-              defaultValue="台北市"
+              value={cityKey}
+              onChange={(e) => setCityKey(e.target.value)}
             />
+            <DownIcon className="absolute w-6 top-5 right-1" />
+            <datalist id="cities" className="text-base text-main">
+              {cities.map((item) => (
+                <option key={item.CityName} value={item.CityName} />
+              ))}
+            </datalist>
           </label>
-          <label htmlFor="number" className="flex-1">
+          <label htmlFor="number" className="flex-1 relative">
             <input
               type="text"
               placeholder="請選擇路線或手動輸入關鍵字"
               className="w-full bg-gray-light py-3 px-4 placeholder-gray rounded-xl"
+              value={routeKey}
+              onChange={(e) => setRouteKey(e.target.value)}
             />
+            {routeKey ? (
+              <CrossIcon
+                className="absolute w-3 top-5 right-3 cursor-pointer"
+                onClick={() => setRouteKey('')}
+              />
+            ) : (
+              <SearchIcon className="absolute w-6 top-3 right-3" />
+            )}
           </label>
         </div>
       </div>
@@ -88,18 +111,16 @@ const RealtimeBus = () => {
               </button>
             </div>
             <div className="pl-2 grid grid-cols-3 grid-rows-4 gap-x-2 gap-y-4">
-              <button className="bg-gray-light2 text-main rounded-lg">1</button>
-              <button className="bg-gray-light2 text-main rounded-lg">2</button>
-              <button className="bg-gray-light2 text-main rounded-lg">3</button>
-              <button className="bg-gray-light2 text-main rounded-lg">4</button>
-              <button className="bg-gray-light2 text-main rounded-lg">5</button>
-              <button className="bg-gray-light2 text-main rounded-lg">6</button>
-              <button className="bg-gray-light2 text-main rounded-lg">7</button>
-              <button className="bg-gray-light2 text-main rounded-lg">8</button>
-              <button className="bg-gray-light2 text-main rounded-lg">9</button>
-              <button className="bg-gray-light2 text-main rounded-lg">C</button>
-              <button className="bg-gray-light2 text-main rounded-lg">0</button>
-              <button className="bg-gray-light2 text-main rounded-lg">x</button>
+              {[...[...new Array(9).keys()].map((n) => n + 1), 'C', 0, 'x'].map(
+                (i) => (
+                  <button
+                    key={i}
+                    className="bg-gray-light2 text-main rounded-lg"
+                  >
+                    {i}
+                  </button>
+                )
+              )}
             </div>
           </div>
         </div>

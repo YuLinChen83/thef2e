@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { routeConfig } from './../../constants';
 import Logo from '../../../assets/images/logo-light.png';
-import Bg from '../../../assets/images/bg-pc.jpg';
+import Bg from '../../../assets/images/bg-pc.png';
 import { ReactComponent as BusIcon } from '../../../assets/icons/bus.svg';
 import { ReactComponent as MarkIcon } from '../../../assets/icons/mark.svg';
 import { ReactComponent as TicketIcon } from '../../../assets/icons/ticket.svg';
@@ -37,8 +37,7 @@ const Homepage = () => {
         className="absolute top-0 h-full w-full bg-cover bg-top bg-no-repeat"
         style={{
           backgroundImage: `url('${Bg}')`,
-          zIndex: -1,
-          clipPath: 'ellipse(70vw 70vw at 50% -26vw)'
+          zIndex: -1
         }}
       />
       <div className="h-2/3 flex flex-col items-center justify-center">
