@@ -34,10 +34,11 @@ const Homepage = () => {
   return (
     <div className="h-full flex flex-col text-white ">
       <div
-        className="absolute top-0 h-full w-full bg-cover bg-top bg-no-repeat"
+        className="absolute top-0 w-full bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('${Bg}')`,
-          zIndex: -1
+          zIndex: -1,
+          height: 'calc(100% - 140px)'
         }}
       />
       <div className="h-2/3 flex flex-col items-center justify-center">
