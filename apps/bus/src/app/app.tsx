@@ -8,7 +8,7 @@ import BusSchedule from './pages/BusSchedule';
 import MyFavorite from './pages/MyFavorite';
 import NearbyBusStop from './pages/NearbyBusStop';
 import Homepage from './pages/Homepage';
-import './index.css';
+import './index.scss';
 
 const queryClient = new QueryClient();
 

@@ -6,31 +6,20 @@ const { Authorization, "X-Date": xDate } = getAuthorizationHeader();
 axios.defaults.headers.common['Authorization'] = Authorization;
 axios.defaults.headers.common['X-Date'] = xDate;
 
-const useStore = create((set, get) => ({
-  searchCity: 'Taipei',
-  busRoutes: [],
-  getCities: async () => {
-    try {
-      const { data } = await axios({
-        method: 'get',
-        url: 'https://gist.motc.gov.tw/gist_api/V3/Map/Basic/City'
-      });
-      set({ cities: data });
-    }
-    catch (error) {
-      console.error(error.message);
-      set({ cities: [] });
-    }
+const useStore = create((set) => ({
+  favorite: JSON.parse(
+    window.localStorage.getItem('favorite') || '{}'
+  ),
+  setFavorite: (favorite) => {
+    window.localStorage.setItem('favorite', JSON.stringify(favorite));
+    set({ favorite });
   },
-  getBusRoutes: async () => {
-    const searchCity = get().searchCity;
-    if (!searchCity) {
-      return;
-    }
+  busRoutes: [],
+  getBusRoutes: async (city) => {
     try {
       const { data } = await axios({
         method: 'get',
-        url: `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${searchCity}?&$format=JSON`
+        url: `https://ptx.transportdata.tw/MOTC/v2/Bus/Route/City/${city}?&$format=JSON`
       });
       set({ busRoutes: data });
     }
