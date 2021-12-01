@@ -116,8 +116,8 @@ const RealtimeBus = () => {
           </div>
           {busRoutes.length ? (
             <>
-              <div className="flex items-center justify-end mx-9">
-                <span className="text-main text-xs my-5 pr-2">
+              <div className="flex items-center justify-end mx-9 mt-5">
+                <span className="text-main text-xs pr-2">
                   僅顯示提供無障礙車輛之路線
                   {/* TODO: 但沒可判斷這的欄位？ */}
                 </span>
@@ -131,7 +131,7 @@ const RealtimeBus = () => {
                 </label>
               </div>
               <div className="flex-none h-full overflow-scroll">
-                <div className="flex flex-col">
+                <div className="flex flex-col mt-5">
                   {filteredBusRoutes.map((item: any) => (
                     <div
                       key={item.RouteUID}
